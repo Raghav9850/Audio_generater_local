@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Generator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("{% static 'images/background-image..png' %}");
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-position: center; /* Centers the image */
+            background-attachment: fixed; /* Keeps the background fixed while scrolling */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8); /* White with some transparency */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            margin: 50px auto;
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #4b7bec;
+            border-color: #4b7bec;
+        }
+
+        .btn-primary:hover {
+            background-color: #3867d6;
+            border-color: #3867d6;
+        }
+
+        .btn-success {
+            background-color: #20bf6b;
+            border-color: #20bf6b;
+        }
+
+        .btn-success:hover {
+            background-color: #17a35f;
+            border-color: #17a35f;
+        }
+
+        footer {
+            font-size: 0.85em;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <br><br><br><br>
+    <div class="container">
+        <h1>Audio Generator</h1>
+        <form method="POST" action="{% url 'convert_text_to_speech' %}" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="text">Enter Text:</label>
+                <textarea id="text" name="text" class="form-control" rows="4" placeholder="Type your text here..." required></textarea>
+                <small class="form-text text-muted">Input text that you want to convert to speech.</small>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-3">Convert to Voice</button>
+        </form>
+
+        {% if audio_file %}
+            <div class="text-center mt-4">
+                <h3 class="text-secondary">Your Converted Audio:</h3>
+                <audio controls class="w-100 mt-2">
+                    <source src="{{ audio_file }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <a href="{% url 'download_audio' %}" class="btn btn-success btn-block mt-3">Download Audio</a>
+            </div>
+        {% endif %}
+
+        <footer class="mt-4">
+                &copy; {{ current_year }} Raghavendra Borse. All rights reserved.<br>
+                Linkedin URL:https://in.linkedin.com/in/raghavendra-borse-37322416b
+            </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
